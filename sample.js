@@ -3,8 +3,9 @@ var mysql = require("mysql");
 var bodyParser = require("body-parser");    
 var passwordHash = require('password-hash');
 var session = require('express-session');
-
-
+var Client = require('node-rest-client').Client;
+ 
+var client = new Client();
 var app = express();
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("assets"));
@@ -52,10 +53,30 @@ app.get('/play',function(req,res){
     if(!req.session.userid){
         res.redirect('/login');
      }
-     else{res.render('play');}
+     else
+     {res.render('play');}
 });
+app.get('/get_ques',function(req,res){
+    client.get("https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple", function (data, response) {
+    var ques={questions:[],options:[]};
+    var ans =[];
+    data.results.forEach(function(Element)
+     {
+        var options=Element.incorrect_answers;
+        var index=Math.floor(Math.random()*4)+1;
+        options.splice(index,0,Element.correct_answer);
+        ques.questions.push(Element.question);
+        ques.options.push(options);
+        ans.push(Element.correct_answer);
+    });
+    // console.log(ques);
+    req.session.answers=ans;
+    res.send(ques);
+    // raw response
+});
+})
 app.get('/logout',function(req,res){
-    req.session.reset();
+    req.session.destroy();
     res.redirect('/login');
 }
 );
