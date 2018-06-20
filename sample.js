@@ -17,10 +17,10 @@ app.use(session({
 
   // DB CONNECTION
 var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "srikrishna@1",
-    database: "ctf_tech_task"
+    host: "us-cdbr-iron-east-04.cleardb.net",
+    user: "b1e87b36eb151e",
+    password: "0caa14fa",
+    database: "heroku_ac3afc1acf45a99"
   });
 con.connect(function(err) {
 if (err) {throw err;}
