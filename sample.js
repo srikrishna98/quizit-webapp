@@ -74,7 +74,7 @@ app.get('/get_ques',function(req,res){
     res.send(ques);
     // raw response
 });
-})
+});
 app.get('/logout',function(req,res){
     req.session.destroy();
     res.redirect('/login');
