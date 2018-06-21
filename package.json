@@ -20,7 +20,8 @@
     "node-rest-client": "^3.1.0",
     "npm": "^6.1.0",
     "password-hash": "^1.2.2",
-    "sha256": "^0.2.0"
+    "sha256": "^0.2.0",
+    "unescape": "^1.0.1"
   },
   "engines": {
     "node": "8.10.0"

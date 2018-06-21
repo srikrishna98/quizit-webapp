@@ -1,6 +1,9 @@
 body{
     background-color: black !important;
 }
+#actual_body{
+    padding-top: 50px;
+}
 body,
 html {
     height: 100%

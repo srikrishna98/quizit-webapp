@@ -36,7 +36,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                   <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">USERNAME<span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= username %><span class="caret"></span></a>
                     <ul class="dropdown-menu">
                       <li><a href="/logout">Logout</a></li>
                     </ul>
@@ -45,17 +45,101 @@
               </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
           </nav>
+          <!-- End of Navbar -->
+<div  id="actual_body">
+            <div class="container-fluid" style="padding-top: 200px;">
+              <div class="row">
+                <div class="col-sm-8 col-md-8 col-md-offset-2">
+                        <div id="rules">
+                                <div class="panel panel-success">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">RULES</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                                <p>THERE ARE 10 QUESTIONS IN THE QUIZ</p>
+                                                <p>NO TIME LIMIT</p>
+                                                <p>SCORE 6 or MORE TO QUALIFY FOR THE NEXT ROUND</p>
+                                                <button class="btn btn-success" id="agree">I AGREE</button>
+                                        </div>
+                                </div>            
+                        </div>
+                        <div id="test" style="visibility: hidden;">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h2 class="panel-title" id="question"></h2>
+                                </div>
+                                <div class="panel-body">
+                                    
+                                <div class="list-group" id="options"></div>    
+                                </div>
+                            </div>
+                        </div>
+                    <br>
+                </div>
+              </div>
+         </div>
+</div>
 </body>
 
 
 <script type="text/javascript">
     particlesJS.load("particles-js",'js/particlesjs-config.json');
+   
+    $('#agree').click(function(){
+        sessionStorage.setItem('score',0);
+        render();
+        $('#rules').remove();
+    });
+   
+    function render(){
+    $('#test').css('visibility','visible');
     $.ajax({
         url:'/get_ques',
         type:'GET',
         success:function(response){
             console.log(response);
+            var qno=response.qno+1;
+            if(qno<=10){
+            $('#question')[0].innerHTML=String(qno-1)+') '+response.questions[0];
+            var options='';
+            for(var i=0;i<4;i++){
+            options+='<a class="list-group-item options" onclick="render()">'+response.options[0][i]+'</a>';}
+
+            $("#options")[0].innerHTML=options;
+            }
+            else{
+                $.ajax({
+                    url:'/score_persist',
+                    type:'POST',
+                    data:{score:sessionStorage.getItem('score')},
+                    success:function(response)
+                    {
+                        $('#question')[0].innerHTML="YAAY!";
+                        $("#options")[0].innerHTML='<h1>You Scored:'+sessionStorage.getItem('score')+'</h1><br><h2><p class="bg-success">Congrats on completing the test!</p></h2><br><a class="btn btn-warning" href="/home">Go to DashBoard</a>';
+            
+                    }
+                });
+            }
+            $('.options').hover(function(){$(this).toggleClass("active")});
+            $('.options').click(function(){submit_answer($(this).text())});
         }
-    })
+    });
+    }
+
+    function submit_answer(text){
+        $.ajax({
+            url:'/check_answer',
+            type:'GET',
+            data:{answer:text},
+            success:function(response){
+                if(response.answer == "True")
+                {
+                    var score=sessionStorage.getItem('score');
+                    sessionStorage.setItem('score',Number(score)+1);
+                }
+                console.log(response.answer);
+            }
+        });
+    }
 </script>
 </html>

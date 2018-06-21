@@ -5,10 +5,11 @@
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="css/common.css">
     <!-- JQuery cdn-->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-
+ <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="js/particles.min.js"></script>
@@ -36,7 +37,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                   <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">USERNAME<span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%=username %><span class="caret"></span></a>
                     <ul class="dropdown-menu">
                       <li><a href="/logout">Logout</a></li>
                     </ul>
@@ -45,10 +46,42 @@
               </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
           </nav>
+          <div id="actual_body">
+            <div class="container-fluid">
+              <div class="row" style="margin-top: 100px;">
+                <div class="col-lg-6">
+                  <h2>My Scores:</h2>
+                  <table id="example" class="display" style="padding-left: 10px;">
+                </table>
+                </div>
+                <div class="col-lg-6">
+                    <h2>LeaderBoard:</h2>
+                    <table id="example1" class="display">
+                  </table>
+                  </div>
+              </div>
+            </div>
+          </div>
+
 </body>
 
 
 <script type="text/javascript">
     particlesJS.load("particles-js",'js/particlesjs-config.json');
+    $.ajax({
+      url:'/my_scores',
+      type:'GET',
+      success:function(response){
+        var tb='<th>Date</th><th>Time</th><th>Score</th>';
+        response.forEach(function(element){
+          tb+='<tr><td>'+element.date+'</td><td>'+element.time+'</td><td>'+element.score+'</td><tr>'
+        });
+        $('table')[0].innerHTML=(tb);
+      }
+    });
+    
+    $(document).ready(function(){
+      $("#example").DataTable();
+    });
 </script>
 </html>

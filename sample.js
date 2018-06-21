@@ -2,6 +2,7 @@ var express = require("express");
 var mysql = require("mysql");
 var bodyParser = require("body-parser");    
 var passwordHash = require('password-hash');
+var decode = require('unescape');
 var session = require('express-session');
 var Client = require('node-rest-client').Client;
  
@@ -33,7 +34,7 @@ con.query("SELECT * FROM user_login", function (err, result, fields) {
 
 
 
-app.listen(process.env.PORT,function(){
+app.listen(process.env.PORT||5000,function(){
     console.log("Server started!");
 });
 
@@ -54,33 +55,56 @@ app.get('/home',function(req,res){
         res.redirect('/login');
      }
      else
-     {res.render('home');}
+     {res.render('home',{username:req.session.userid});}
 });
 app.get('/play',function(req,res){
     if(!req.session.userid){
         res.redirect('/login');
      }
      else
-     {res.render('play');}
+     {  req.session.qno=0;
+        req.session.score=0;
+        res.render('play',{username:req.session.userid});
+        }
 });
 app.get('/get_ques',function(req,res){
-    client.get("https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple", function (data, response) {
-    var ques={questions:[],options:[]};
-    var ans =[];
-    data.results.forEach(function(Element)
-     {
-        var options=Element.incorrect_answers;
-        var index=Math.floor(Math.random()*4)+1;
-        options.splice(index,0,Element.correct_answer);
-        ques.questions.push(Element.question);
-        ques.options.push(options);
-        ans.push(Element.correct_answer);
-    });
-    // console.log(ques);
-    req.session.answers=ans;
-    res.send(ques);
-    // raw response
+    if(req.session.qno<10){
+        client.get("https://opentdb.com/api.php?amount=1&category=9&difficulty=easy&type=multiple&token=b7518dcd2ee1d98513dfccdd9c12c8c7c2b832321213167f4a6ca5e0f945bbee", function (data, response) {
+        var ques={qno:req.session.qno+1,questions:[],options:[]};
+        data.results.forEach(function(Element)
+        {
+            var options=Element.incorrect_answers;
+            var index=Math.floor(Math.random()*4)+1;
+            options.splice(index,0,Element.correct_answer);
+            ques.questions.push(Element.question);
+            ques.options.push(options);
+            req.session.ans=decode(Element.correct_answer);
+            // console.log(req.session.ans);
+        });
+        req.session.qno++;
+        res.send(ques);
+        });
+    }
 });
+app.get('/check_answer',function(req,res){
+    if(req.query.answer == req.session.ans)
+        {   
+         res.send({answer:"True"});
+        }
+        else{res.send({answer:"False"});}
+
+ });
+app.get('/my_scores',function(req,res){
+    var sql = "SELECT score,date_format(time_of_test, '%d-%m-%Y') as date,TIME(time_of_test) as time from scores where userid='"+req.session.userid+"'";
+    con.query(sql,function(err,result)
+    {
+     if(err) res.send({message:"internal server error"});
+     var arr=(JSON.stringify(result));
+    //  console.log(result);
+     var arr=JSON.parse(arr);  
+     res.send(arr);
+    } 
+    );
 });
 app.get('/logout',function(req,res){
     req.session.destroy();
@@ -131,7 +155,6 @@ app.post('/login', function(req, res){
         
         //obtained non-empty result set
         else{
-                // sess=req.session;
                 var password=req.body.password;
                 var hashedPassword=(arr[0].hash);
                 var userid=arr[0].userid;
@@ -139,8 +162,6 @@ app.post('/login', function(req, res){
                 
                 // login success
                 if(correct){
-                    // sess.user = req.body.email;
-                    // console.log(req.session.user);
                     req.session.userid=userid;
                     res.send({redirect:"/home"});
                 }
@@ -153,7 +174,13 @@ app.post('/login', function(req, res){
     });
     }
  });
- 
+ app.post('/score_persist',function(req,res){
+    var sql = "INSERT INTO scores(userid,score) VALUES('"+req.session.userid+"',"+req.body.score+")";
+    con.query(sql,function(err,result){
+        if(err) throw err
+        res.send({score:req.body.score});
+    });
+ })
 
 // FUNCTIONS
 
