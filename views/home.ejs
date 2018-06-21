@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Take the quiz</title>
+	<title>Dashboard</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -25,14 +25,14 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="/play">Quiz</a>
+                <a class="navbar-brand" href="/home">Quiz</a>
               </div>
           
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                  <li><a href="#">Dashboard<span class="sr-only">(current)</span></a></li>
-                  <li class="active"><a href="#">Take the quiz</a></li>
+                  <li class="active"><a href="/home">Dashboard<span class="sr-only">(current)</span></a></li>
+                  <li><a href="/play">Take the quiz</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                   <li class="dropdown">
@@ -50,12 +50,5 @@
 
 <script type="text/javascript">
     particlesJS.load("particles-js",'js/particlesjs-config.json');
-    $.ajax({
-        url:'/get_ques',
-        type:'GET',
-        success:function(response){
-            console.log(response);
-        }
-    })
 </script>
 </html>

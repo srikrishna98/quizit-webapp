@@ -49,6 +49,13 @@ app.get("/register",function(req,res){
 app.get('/login', function(req, res){
     res.render('login');
  });
+app.get('/home',function(req,res){
+    if(!req.session.userid){
+        res.redirect('/login');
+     }
+     else
+     {res.render('home');}
+});
 app.get('/play',function(req,res){
     if(!req.session.userid){
         res.redirect('/login');
@@ -135,7 +142,7 @@ app.post('/login', function(req, res){
                     // sess.user = req.body.email;
                     // console.log(req.session.user);
                     req.session.userid=userid;
-                    res.send({redirect:"/play"});
+                    res.send({redirect:"/home"});
                 }
 
                 //invalid credentials
