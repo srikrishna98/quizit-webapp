@@ -10,16 +10,19 @@
 	<link rel="stylesheet" type="text/css" href="css/login.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" type="text/css" href="css/theme.css">
+	<link rel="stylesheet" type="text/css" href="css/common.css">
 	<!-- JQuery cdn-->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="js/login.js"></script>
+	<script src="js/particles.min.js"></script>
 </head>
-<body>
+<body >
+	<div id="particles-js"></div>	
 <div class="container-fluid bg-purewhite content-area">
-<div class="container">
+	<div class="container">
     <div class="row">
         <div class="col-sm-6 col-md-4 col-md-offset-4">
 		    <div class="account-wall">
@@ -50,4 +53,8 @@
 </div>
 </div>
 </body>
+	<script type="text/javascript">
+			particlesJS.load("particles-js",'js/particlesjs-config.json');
+		   </script>
+		
 </html>
