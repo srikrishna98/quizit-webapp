@@ -16,9 +16,10 @@ app.use(session({
     resave:false,
     saveUninitialized:true
   }));
-
+var con;
   // DB CONNECTION
-var con = mysql.createConnection({
+function dbConnect(callback){
+  var con = mysql.createConnection({
     host: "us-cdbr-iron-east-04.cleardb.net",
     user: "b1e87b36eb151e",
     password: "0caa14fa",
@@ -31,6 +32,8 @@ con.query("SELECT * FROM user_login", function (err, result, fields) {
     console.log("QUERY PASSING ENABLED");
 });
 });  
+callback(con);
+}
 
 
 
@@ -41,6 +44,7 @@ app.listen(process.env.PORT||5000,function(){
 
 // GET REQUESTS
 app.get("/",function(req,res){
+    dbConnect(function(result){con=result;})
     res.render("login");
 });
 
