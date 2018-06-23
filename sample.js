@@ -110,6 +110,19 @@ app.get('/my_scores',function(req,res){
     } 
     );
 });
+app.get('/leaderboard',function(req,res){
+    var sql = "select userid,score from (select * from scores order by score desc)x group by userid";
+    con.query(sql,function(err,result)
+    {
+     if(err) res.send({message:"internal server error"});
+     var arr=(JSON.stringify(result));
+    //  console.log(result);
+     var arr=JSON.parse(arr);
+     console.log(arr);  
+     res.send(arr);
+    } 
+    );
+});
 app.get('/logout',function(req,res){
     req.session.destroy();
     res.redirect('/login');

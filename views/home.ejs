@@ -81,6 +81,19 @@
           $("#myscores").DataTable();
       }
     });
+    $.ajax({
+      url:'/leaderboard',
+      type:'GET',
+      success:function(response){
+        console.log(response.length);
+        var tb='<thead style="color:white !important;"><tr><th>USER</th><th>SCORE</th></tr></thead>';
+        response.forEach(function(element){
+          tb+='<tr><td>'+element.userid+'</td><td>'+element.score+'</td></tr>';
+        });
+        $('table')[1].innerHTML=(tb);
+          $("#LeaderBoard").DataTable();
+      }
+    });
   
 </script>
 </html>
