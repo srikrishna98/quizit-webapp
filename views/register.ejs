@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Sample file</title>
+	<title>Quizit register</title>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -32,7 +32,7 @@
                                     <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required autofocus>
 									<br>
 									<input type="text" class="form-control" style="width:245px;" id="userid" name="userid" placeholder="Enter your userid" required>
-									<i class="material-icons" id="indication" style="font-size: 28px !important;margin-top: 10px;margin-left: 10px;">
+									<i class="material-icons" id="indication" style="font-size: 28px !important;margin-top: 10px;margin-left: 10px; color: gray !important;">
 										error
 									</i>
 									<br>
@@ -42,9 +42,7 @@
                            </div>
 							<div id="tabs" data-tabs="tabs">
 								<p class="text-center reglink"><a href="/login">Have an Account?</a></p>
-								<p id="message" class="text-center">
-									
-								</p>
+								<div id="snackbar"></div>
 							</div>
                			</div>	
 				</div>
@@ -72,8 +70,8 @@
 						window.location=response.redirect;
 					else
 						{
-							var message=$('#message')[0];
-                     		message.innerText=response.message;
+							$('#snackbar')[0].innerText=response.message;
+                     		myFunction();
 						}
 				}
 				}
@@ -96,5 +94,15 @@
 			})
 		});
 });
+function myFunction() {
+    // Get the snackbar DIV
+    var x = document.getElementById("snackbar");
+
+    // Add the "show" class to DIV
+    x.className = "show";
+
+    // After 3 seconds, remove the show class from DIV
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+} 
 </script>
 </html>

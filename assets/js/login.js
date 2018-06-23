@@ -14,11 +14,22 @@ $(document).ready(function(){
                         window.location=response.redirect;
                     }
                  else
-                    {var message=$('#message')[0];
-                     message.innerText=response.message;
+                    {
+                     $('#snackbar')[0].innerText=response.message;
+                     myFunction();
                     }    
                }
             }
         );
     });
 });
+function myFunction() {
+    // Get the snackbar DIV
+    var x = document.getElementById("snackbar");
+
+    // Add the "show" class to DIV
+    x.className = "show";
+
+    // After 3 seconds, remove the show class from DIV
+    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+} 
