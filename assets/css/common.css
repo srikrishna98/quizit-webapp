@@ -1,5 +1,6 @@
 body{
-    background-color: black !important;
+    background-color: #10072f!important;
+    color: white;
 }
 #actual_body{
     padding-top: 50px;
@@ -16,3 +17,6 @@ canvas {
     width: 100%;
     height: 100%;
   }
+table{
+    color: #10072f !important;
+}

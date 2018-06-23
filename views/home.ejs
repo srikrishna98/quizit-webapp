@@ -51,12 +51,12 @@
               <div class="row" style="margin-top: 100px;">
                 <div class="col-lg-6">
                   <h2>My Scores:</h2>
-                  <table id="example" class="display" style="padding-left: 10px;">
+                  <table id="myscores" class="table" style="padding-left: 10px;">
                 </table>
                 </div>
                 <div class="col-lg-6">
                     <h2>LeaderBoard:</h2>
-                    <table id="example1" class="display">
+                    <table id="LeaderBoard" class="table table-hover display">
                   </table>
                   </div>
               </div>
@@ -72,16 +72,15 @@
       url:'/my_scores',
       type:'GET',
       success:function(response){
-        var tb='<th>Date</th><th>Time</th><th>Score</th>';
+        console.log(response.length);
+        var tb='<thead style="color:white !important;"><tr><th>Date</th><th>Time</th><th>Score</th></tr></thead>';
         response.forEach(function(element){
-          tb+='<tr><td>'+element.date+'</td><td>'+element.time+'</td><td>'+element.score+'</td><tr>'
+          tb+='<tr><td>'+element.date+'</td><td>'+element.time+'</td><td>'+element.score+'</td></tr>'
         });
         $('table')[0].innerHTML=(tb);
+          $("#myscores").DataTable();
       }
     });
-    
-    $(document).ready(function(){
-      $("#example").DataTable();
-    });
+  
 </script>
 </html>

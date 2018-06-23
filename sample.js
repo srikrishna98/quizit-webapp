@@ -142,6 +142,7 @@ app.post("/register",function(req,res){
 });
 
 app.post('/login', function(req, res){
+    dbConnect(function(result){con=result;});
    if(!req.body.email || !req.body.password){
         res.send({message:"Please enter both id and password"});
     }
