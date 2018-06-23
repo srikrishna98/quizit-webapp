@@ -5,7 +5,7 @@
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+	<link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet"> 
 
 	<link rel="stylesheet" type="text/css" href="css/login.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
@@ -21,6 +21,7 @@
 </head>
 <body >
 	<div id="particles-js"></div>	
+	<div id="loader"></div>
 <div class="container-fluid bg-purewhite content-area">
 	<div class="container">
     <div class="row">
@@ -41,7 +42,7 @@
 						
 							<div id="tabs" data-tabs="tabs">
 								<p class="text-center reglink"><a href="/register">Need an Account?</a></p>
-								<p id="message" class="text-center">
+								<p id="message" class="text-center" style="color: black !important;">
 									
 								</p>
 							</div>
@@ -55,6 +56,16 @@
 </body>
 	<script type="text/javascript">
 			particlesJS.load("particles-js",'js/particlesjs-config.json');
+			var $loading = $('#loader').hide();
+    		$(document)
+			.ajaxStart(function () {
+				$loading.show();
+				$('.account-wall').hide();
+			})
+			.ajaxStop(function () {
+				$loading.hide();
+				$('.account-wall').show();
+			});
 		   </script>
 		
 </html>

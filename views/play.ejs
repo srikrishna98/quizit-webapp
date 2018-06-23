@@ -5,6 +5,7 @@
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet"> 
     <link rel="stylesheet" href="css/common.css">
     <!-- JQuery cdn-->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -19,7 +20,7 @@
             <div class="container-fluid">
               <!-- Brand and toggle get grouped for better mobile display -->
               <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                   <span class="sr-only">Toggle navigation</span>
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
@@ -31,7 +32,7 @@
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                  <li><a href="#">Dashboard<span class="sr-only">(current)</span></a></li>
+                  <li><a href="/home">Dashboard<span class="sr-only">(current)</span></a></li>
                   <li class="active"><a href="#">Take the quiz</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -47,6 +48,7 @@
           </nav>
           <!-- End of Navbar -->
 <div  id="actual_body">
+    <div id="loader"></div>
             <div class="container-fluid" style="padding-top: 200px;">
               <div class="row">
                 <div class="col-sm-8 col-md-8 col-md-offset-2">
@@ -55,10 +57,12 @@
                                         <div class="panel-heading">
                                             <h3 class="panel-title">RULES</h3>
                                         </div>
-                                        <div class="panel-body">
-                                                <p>THERE ARE 10 QUESTIONS IN THE QUIZ</p>
-                                                <p>NO TIME LIMIT</p>
-                                                <p>SCORE 6 or MORE TO QUALIFY FOR THE NEXT ROUND</p>
+                                        <div class="panel-body" style="color: black !important;">
+                                                <p>1.THERE ARE 9 QUESTIONS IN THE QUIZ</p>
+                                                <p>2.NO TIME LIMIT</p>
+                                                <p>3.FEEL FREE TO SELECT ANY OPTION</p>
+                                                <p>4.ONLY YOUR BEST SCORE WILL TAKEN INTO ACCOUNT FOR THE LEADERBOARD</p>
+                                                <p>5.READ THE ABOVE RULES :P</p>
                                                 <button class="btn btn-success" id="agree">I AGREE</button>
                                         </div>
                                 </div>            
@@ -91,6 +95,17 @@
         $('#rules').remove();
     });
    
+    var $loading = $('#loader').hide();
+    $(document)
+    .ajaxStart(function () {
+        $loading.show();
+        $('#test').hide();
+    })
+    .ajaxStop(function () {
+        $loading.hide();
+        $('#test').show();
+    });
+
     function render(){
     $('#test').css('visibility','visible');
     $.ajax({
@@ -115,7 +130,7 @@
                     success:function(response)
                     {
                         $('#question')[0].innerHTML="YAAY!";
-                        $("#options")[0].innerHTML='<h1>You Scored:'+sessionStorage.getItem('score')+'</h1><br><h2><p class="bg-success">Congrats on completing the test!</p></h2><br><a class="btn btn-warning" href="/home">Go to DashBoard</a>';
+                        $("#options")[0].innerHTML='<h1 style="color:black !important;">You Scored:'+sessionStorage.getItem('score')+'</h1><br><h2><p class="bg-success">Congrats on completing the test!</p></h2><br><a class="btn btn-warning" href="/home">Go to DashBoard</a>';
             
                     }
                 });

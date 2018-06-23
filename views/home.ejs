@@ -6,6 +6,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/jquery.dataTables.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet"> 
     <link rel="stylesheet" href="css/common.css">
     <!-- JQuery cdn-->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -47,14 +48,18 @@
             </div><!-- /.container-fluid -->
           </nav>
           <div id="actual_body">
+            <div id="loader"></div> 
             <div class="container-fluid">
               <div class="row" style="margin-top: 100px;">
-                <div class="col-lg-6">
+                <div class="col-lg-5" style="color: white !important;">
                   <h2>My Scores:</h2>
                   <table id="myscores" class="table" style="padding-left: 10px;">
                 </table>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-2">
+                  <!-- <button class="btn btn-primary">Let's Quiz</button> -->
+                </div>
+                <div class="col-lg-5 " style="color: white !important;">
                     <h2>LeaderBoard:</h2>
                     <table id="LeaderBoard" class="table table-hover display">
                   </table>
@@ -68,6 +73,16 @@
 
 <script type="text/javascript">
     particlesJS.load("particles-js",'js/particlesjs-config.json');
+    var $loading = $('#loader').hide();
+    		$(document)
+			.ajaxStart(function () {
+				$loading.show();
+				$('.row').hide();
+			})
+			.ajaxStop(function () {
+				$loading.hide();
+				$('.row').show();
+			});
     $.ajax({
       url:'/my_scores',
       type:'GET',
