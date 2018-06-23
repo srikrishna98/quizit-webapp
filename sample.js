@@ -109,7 +109,7 @@ app.get('/my_scores',function(req,res){
         });
 });
 app.get('/leaderboard',function(req,res){
-    var sql = "select userid,score from (select * from scores order by score desc)x group by userid order by score desc";
+    var sql = "select userid,score from (select * from scores order by score desc)x group by userid order by score desc limit 10";
     mysql_pool.getConnection(function(err,con){
         if(err) {con.release(); throw err;}    
             con.query(sql, function (err2, result, fields) {
