@@ -3,7 +3,7 @@
 - [x] Logged in users can browse and search across their previous scores.
 - [x] Logged in users can also see the Leaderboard with top 10 scores displayed.
 <br/>
-Check out the app at:<a href="https://ctfbkndtask1.herokuapp.com/">https://ctfbkndtask1.herokuapp.com/</a>
+Check out the app at : <a href="https://ctfbkndtask1.herokuapp.com/">https://ctfbkndtask1.herokuapp.com/</a>
 <br/>
 
 ## Used
