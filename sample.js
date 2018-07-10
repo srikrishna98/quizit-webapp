@@ -71,7 +71,7 @@ app.get('/play',function(req,res){
 });
 app.get('/get_ques',function(req,res){
     if(req.session.qno<10){
-        client.get("https://opentdb.com/api.php?amount=1&category=9&difficulty=easy&type=multiple&token=4e20e0c5f13eff1348feaf9569e924594a8070dbe6b5c3b16fae4783a4620bf0", function (data, response) {
+        client.get("https://opentdb.com/api.php?amount=1&category=9&difficulty=easy&type=multiple&token=7c5e8a7c20d635a8dfa23ddfa33fa62b92f44b42eaa147ef09a35d1f3687b90c", function (data, response) {
         var ques={qno:req.session.qno+1,questions:[],options:[]};
         data.results.forEach(function(Element)
         {
